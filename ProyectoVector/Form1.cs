@@ -12,9 +12,13 @@ namespace ProyectoVector
 {
     public partial class FormPlanoCartesiano : Form
     {
+        DibujarTriangulo triangulo;
+        DireccionYSentido direccion;
         public FormPlanoCartesiano()
         {
             InitializeComponent();
+            triangulo = new DibujarTriangulo(textBoxX1, textBoxX2, textBoxX3, textBoxY1, textBoxY2, textBoxY3, pictureBox1);
+            direccion = new DireccionYSentido(textBoxDireccionX, textBoxDireccionY, pictureBox1);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -46,6 +50,39 @@ namespace ProyectoVector
 
             e.Graphics.DrawLine(lapiz, xCentro, 0, -xCentro, 0);
             e.Graphics.DrawLine(lapiz, 0, yCentro, 0, -yCentro);
+
+            for(int i = -xCentro; i <= yCentro; i += 8)
+            {
+                e.Graphics.DrawLine(lapiz, i, 2, i, -2);
+                e.Graphics.DrawLine(lapiz, 2, i, -2, i);
+            }
+        }
+
+        private void buttonDibujar1_Click(object sender, EventArgs e)
+        {
+            triangulo._Graficar();
+        }
+
+        private void buttonBorrar1_Click(object sender, EventArgs e)
+        {
+            triangulo._LimpiarPlano();
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonCalcular_Click(object sender, EventArgs e)
+        {
+            direccion._Graficar();
+            direccion._CalcularDireccionYSentido(labelRespuestaFi, labelRespuestaSentido, labelRespuestaSentidoString);
+        }
+
+        private void buttonBorrar_Click(object sender, EventArgs e)
+        {
+            direccion._LimpiarPlano();
+            direccion._LimpiarRespuestas(labelRespuestaFi, labelRespuestaSentido, labelRespuestaSentidoString);
         }
     }
 }
