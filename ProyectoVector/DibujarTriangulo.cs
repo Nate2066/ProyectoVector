@@ -10,90 +10,97 @@ namespace ProyectoVector
 {
     public class DibujarTriangulo
     {
-        private TextBox X1, X2, X3, Y1, Y2, Y3;
-        private int TX1, TX2, TX3, TY1, TY2, TY3;
         private PictureBox pictureBox1;
         private int xCentro;
         private int yCentro;
         private Graphics vector;
         private Pen lapiz;
-        public DibujarTriangulo(TextBox pX1, TextBox pX2, TextBox pX3, TextBox pY1, TextBox pY2, TextBox pY3, PictureBox pictureBox1)
+
+        private List<Point> vectores = new List<Point>();
+        private int contador = 0;
+        public DibujarTriangulo(PictureBox pictureBox1)
         {
-            X1 = pX1;
-            X2 = pX2;
-            X3 = pX3;
-            Y1 = pY1;
-            Y2 = pY2;
-            Y3 = pY3;
             this.pictureBox1 = pictureBox1;
         }
-        public void _Graficar()
+        public void _AgregarVector(TextBox X, TextBox Y)
         {
-            if (X1.Text == "")
+            if (int.TryParse(X.Text, out int XS))
             {
-                X1.Focus();
-            }
-            else
-            {
-                if (X2.Text == "")
+                if ( XS > 27)
                 {
-                    X2.Focus();
+                    X.Focus();
                 }
                 else
                 {
-                    if (X3.Text == "")
+                    if (int.TryParse(Y.Text, out int YS))
                     {
-                        X3.Focus();
-                    }
-                    else
-                    {
-                        if (Y1.Text == "")
+                        if (YS > 27)
                         {
-                            Y1.Focus();
+                            Y.Focus();
                         }
                         else
                         {
-                            if (Y2.Text == "")
+                            if (contador < 10)
                             {
-                                Y2.Focus();
-                            }
-                            else
-                            {
-                                if (Y3.Text == "")
-                                {
-                                    Y3.Focus();
-                                }
-                                else
-                                {
-                                    _DibujarTriangulo();
-                                }
+                                xCentro = pictureBox1.Width / 2;
+                                yCentro = pictureBox1.Height / 2;
+                                vectores.Add(new Point(xCentro + (XS * 8), yCentro - (YS * 8)));
+                                contador += 1;
+                                X.Text = "";
+                                Y.Text = "";
                             }
                         }
                     }
+                    else
+                    {
+                        Y.Focus();
+                    }
                 }
             }
+            else
+            {
+                X.Focus();
+            }
+            
         }
-        private void _DibujarTriangulo()
+        public void _Reset()
         {
-            xCentro = pictureBox1.Width / 2;
-            yCentro = pictureBox1.Height / 2;
-
-            vector = pictureBox1.CreateGraphics();
-            TX1 = xCentro + (Convert.ToInt32(X1.Text) * 8);
-            TY1 = xCentro - (Convert.ToInt32(Y1.Text) * 8);
-            TX2 = xCentro + (Convert.ToInt32(X2.Text) * 8);
-            TY2 = xCentro - (Convert.ToInt32(Y2.Text) * 8);
-            TX3 = xCentro + (Convert.ToInt32(X3.Text) * 8);
-            TY3 = xCentro - (Convert.ToInt32(Y3.Text) * 8);
-
-            Point Vector1 = new Point(TX1, TY1);
-            Point Vector2 = new Point(TX2, TY2);
-            Point Vector3 = new Point(TX3, TY3);
-
-            lapiz = new Pen(Color.Blue, 1);
-            vector.DrawLine(lapiz, Vector1, Vector2);
-            vector.DrawLine(lapiz, Vector2, Vector3);
-            vector.DrawLine(lapiz, Vector3, Vector1);
+            contador = 0;
+            vectores.Clear();
+        }
+        public void _ActualizarInterfaz(TextBox pResumen)
+        {
+            pResumen.Text = Convert.ToString(contador);
+            _Graficar();
+        }
+        public void _EliminarVector()
+        {
+            if(contador > 0)
+            {
+                _LimpiarPlano();
+                contador -= 1;
+                vectores.RemoveAt(contador);
+                _Graficar();
+            }
+        }
+        public void _Graficar()
+        {
+            if(vectores.Count > 1)
+            {
+                vector = pictureBox1.CreateGraphics();
+                lapiz = new Pen(Color.Blue, 1);
+                for (int i = 0; i < vectores.Count; i++)
+                {
+                    if (i == (vectores.Count - 1))
+                    {
+                        vector.DrawLine(lapiz, vectores[i], vectores[i - 1]);
+                    }
+                    else
+                    {
+                        vector.DrawLine(lapiz, vectores[i], vectores[i + 1]);
+                    }
+                }
+            }
         }
         public void _LimpiarPlano()
         {

@@ -17,8 +17,8 @@ namespace ProyectoVector
         public FormPlanoCartesiano()
         {
             InitializeComponent();
-            triangulo = new DibujarTriangulo(textBoxX1, textBoxX2, textBoxX3, textBoxY1, textBoxY2, textBoxY3, pictureBox1);
-            direccion = new DireccionYSentido(textBoxDireccionX, textBoxDireccionY, pictureBox1);
+            triangulo = new DibujarTriangulo(pictureBox1);
+            direccion = new DireccionYSentido(pictureBox1);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -61,11 +61,15 @@ namespace ProyectoVector
         private void buttonDibujar1_Click(object sender, EventArgs e)
         {
             triangulo._Graficar();
+            direccion._LimpiarRespuestas(txtRespuestaFi, txtRespuestaSentido, txtRespuestaSentidoString);
+            triangulo._ActualizarInterfaz(txtMostrarCantidadDeVectores);
         }
 
         private void buttonBorrar1_Click(object sender, EventArgs e)
         {
+            direccion._LimpiarRespuestas(txtRespuestaFi, txtRespuestaSentido, txtRespuestaSentidoString);
             triangulo._LimpiarPlano();
+            triangulo._ActualizarInterfaz(txtMostrarCantidadDeVectores);
         }
 
         private void label1_Click_1(object sender, EventArgs e)
@@ -75,14 +79,130 @@ namespace ProyectoVector
 
         private void buttonCalcular_Click(object sender, EventArgs e)
         {
-            direccion._Graficar();
-            direccion._CalcularDireccionYSentido(labelRespuestaFi, labelRespuestaSentido, labelRespuestaSentidoString);
+            direccion._Graficar(textBoxDireccionX, textBoxDireccionY);
+            direccion._CalcularDireccionYSentido(txtRespuestaFi, txtRespuestaSentido, txtRespuestaSentidoString);
         }
 
         private void buttonBorrar_Click(object sender, EventArgs e)
         {
             direccion._LimpiarPlano();
-            direccion._LimpiarRespuestas(labelRespuestaFi, labelRespuestaSentido, labelRespuestaSentidoString);
+            direccion._LimpiarRespuestas(txtRespuestaFi, txtRespuestaSentido, txtRespuestaSentidoString);
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxDireccionX_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void textBoxDireccionY_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+
+        private void btnAgregarVector_Click(object sender, EventArgs e)
+        {
+            direccion._LimpiarRespuestas(txtRespuestaFi, txtRespuestaSentido, txtRespuestaSentidoString);
+            triangulo._AgregarVector(txtX1, txtY1);
+            triangulo._ActualizarInterfaz(txtMostrarCantidadDeVectores);
+        }
+
+        private void textBoxY1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxDireccionX_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+            if (!char.IsSymbol(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+        }
+
+        private void textBoxDireccionY_KeyPress_1(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+            if (!char.IsSymbol(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+        }
+
+        private void textBoxX1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBoxY1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtX1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+            if (!char.IsSymbol(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+        }
+
+        private void txtY1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+            if(!char.IsSymbol(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+        }
+
+        private void txtX1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnMenos1vector_Click(object sender, EventArgs e)
+        {
+            triangulo._EliminarVector();
+            triangulo._ActualizarInterfaz(txtMostrarCantidadDeVectores);
         }
     }
 }

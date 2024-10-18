@@ -10,35 +10,33 @@ namespace ProyectoVector
 {
     public class DireccionYSentido
     {
-        private TextBox direccionX;
-        private TextBox direccionY;
+        private int direccionX;
+        private int direccionY;
         private int X, Y, X1, Y1, X2, Y2;
         private PictureBox pictureBox1;
         private int xCentro, yCentro;
         private Graphics vector;
         private Pen lapiz;
-        public DireccionYSentido(TextBox direccionX, TextBox direccionY, PictureBox pictureBox1)
+        public DireccionYSentido( PictureBox pictureBox1)
         {
-            this.direccionX = direccionX;
-            this.direccionY = direccionY;
             this.pictureBox1 = pictureBox1;
         }
-        public void _Graficar()
+        public void _Graficar(TextBox direccionX, TextBox direccionY)
         {
-            if(direccionX.Text == "")
+            if(int.TryParse(direccionX.Text, out this.direccionX))
             {
-                direccionX.Focus();
-            }
-            else
-            {
-                if (direccionY.Text == "")
-                {
-                    direccionY.Focus();
-                }
-                else
+                if (int.TryParse(direccionY.Text, out this.direccionY))
                 {
                     _GraficarDireccionYSentido();
                 }
+                else
+                {
+                    direccionY.Focus();
+                }
+            }
+            else
+            {
+                direccionX.Focus();
             }
         }
         private void _GraficarDireccionYSentido()
@@ -46,8 +44,8 @@ namespace ProyectoVector
             lapiz = new Pen(Color.Red, 1);
             xCentro = pictureBox1.Width  / 2;
             yCentro = pictureBox1.Height / 2;
-            X = Convert.ToInt32(direccionX.Text) * 8;
-            Y = Convert.ToInt32(direccionY.Text) * 8;
+            X = direccionX * 8;
+            Y = direccionY * 8;
             X1 = X;
             Y2 = 0;
             X2 = 0;
@@ -64,11 +62,11 @@ namespace ProyectoVector
             vector.DrawLine(lapiz, vector2, vector3);
             vector.DrawLine(lapiz, vector3, vector1);
         }
-        public void _CalcularDireccionYSentido(Label respuestaDireccion, Label respuestaSentido, Label respuestaSentido2)
+        public void _CalcularDireccionYSentido(TextBox respuestaDireccion, TextBox respuestaSentido, TextBox respuestaSentido2)
         {
 
-            double X = Convert.ToDouble(direccionX.Text);
-            double Y = Convert.ToDouble(direccionY.Text);
+            double X = Convert.ToDouble(direccionX);
+            double Y = Convert.ToDouble(direccionY);
             if(X > 0 && Y >= 0)
             {
                 //primer cuadrante
@@ -153,7 +151,7 @@ namespace ProyectoVector
                 respuestaSentido2.Text = "Negativo";
             }
         }
-        public void _LimpiarRespuestas(Label respuestaDireccion, Label respuestaSentido, Label respuestaSentidoString)
+        public void _LimpiarRespuestas(TextBox respuestaDireccion, TextBox respuestaSentido, TextBox respuestaSentidoString)
         {
             respuestaDireccion.Text = "0";
             respuestaSentido.Text = "0";
